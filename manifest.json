@@ -1,0 +1,40 @@
+{
+  "manifest_version": 3,
+  "name": "AI Blocker for Reddit",
+  "version": "0.3.0",
+  "description": "Hide likely AI-generated and self-promotional posts from Reddit feeds.",
+  "permissions": ["storage"],
+  "host_permissions": [
+    "https://reddit.com/*",
+    "https://www.reddit.com/*",
+    "https://*.reddit.com/*",
+    "https://api.openai.com/*"
+  ],
+  "background": {
+    "service_worker": "dist/background.js",
+    "type": "module"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://reddit.com/*",
+        "https://www.reddit.com/*",
+        "https://*.reddit.com/*"
+      ],
+      "js": ["dist/content-config.js", "dist/content-ui.js", "dist/content.js"],
+      "css": ["css/content.css"],
+      "run_at": "document_idle"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["templates/placeholder.html", "templates/debug-hud.html"],
+      "matches": ["https://reddit.com/*", "https://www.reddit.com/*", "https://*.reddit.com/*"]
+    }
+  ],
+  "options_page": "views/options.html",
+  "action": {
+    "default_title": "AI Blocker for Reddit",
+    "default_popup": "views/popup.html"
+  }
+}

@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>AI Blocker</title>
+    <link rel="stylesheet" href="../css/popup.css" />
+  </head>
+  <body>
+    <main class="panel">
+      <h1>AI Blocker</h1>
+      <p class="counter">Blocked posts: <span id="blockedCount">0</span></p>
+      <p id="keyStatus" class="muted">No OpenAI API key saved.</p>
+      <div class="actions">
+        <button id="addKeyButton" type="button">+ Add OpenAI API key</button>
+        <button id="openOptions" type="button" class="secondary">More settings</button>
+      </div>
+      <section id="keyEditor" class="key-editor hidden">
+        <h2>OpenAI API key</h2>
+        <label for="apiKeyInput">Paste key</label>
+        <input id="apiKeyInput" type="password" placeholder="sk-..." autocomplete="off" />
+        <p class="muted">Stored only in local extension storage.</p>
+        <div class="actions">
+          <button id="saveKey" type="button">Save</button>
+          <button id="cancelKey" type="button" class="secondary">Cancel</button>
+        </div>
+      </section>
+      <p id="status" class="status" role="status"></p>
+    </main>
+
+    <script type="module" src="../dist/popup.js"></script>
+  </body>
+</html>

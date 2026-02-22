@@ -1,0 +1,9 @@
+node_modules/
+
+# Root-level compiled artifacts (canonical build output is in /dist)
+/background.js
+/content.js
+/options.js
+
+# OS/editor noise
+.DS_Store
