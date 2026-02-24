@@ -4,13 +4,16 @@ Chrome extension that reduces AI-generated post bloat and repetitive spam patter
 
 ## Why this exists
 
-Reddit is increasingly flooded with templated AI-style posts and constant self-promotion. That can create ongoing mental toil when you just want signal over noise.
+Reddit is increasingly flooded with AI slop and constant self-promotion. It's all so boilerplate that in theory it should be simple to detect... especially for another LLM.
 
-This project aims to give users practical filtering controls to reduce that fatigue:
+<img width="600" height="551" alt="ai-point" src="https://github.com/user-attachments/assets/b20a5f16-2d6c-4ae5-bc7e-080e155b4609" />
+
+This project aims to give users practical filtering controls to reduce the AI brain numbing in your feed:
 
 - Filter likely AI-generated writing patterns
 - Optionally filter self-promotional posts more aggressively
 - Keep the system transparent with debug labels and scoring reasons
+- Intended to keep cost of tokens way down by combining LLM and local scoring
 
 ## Features
 
