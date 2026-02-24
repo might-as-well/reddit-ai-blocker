@@ -5,6 +5,7 @@ var AiBlockerContentConfig;
         enabled: true,
         threshold: 8,
         customKeywords: [],
+        filterSelfPromotion: false,
         llmEnabled: false
     };
     AiBlockerContentConfig.LLM_LOW_DELTA = 3;

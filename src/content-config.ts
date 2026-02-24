@@ -3,6 +3,7 @@ namespace AiBlockerContentConfig {
     enabled: boolean;
     threshold: number;
     customKeywords: string[];
+    filterSelfPromotion: boolean;
     llmEnabled: boolean;
   }
 
@@ -32,6 +33,7 @@ namespace AiBlockerContentConfig {
     enabled: boolean;
     threshold: number;
     customKeywords: string[];
+    filterSelfPromotion: boolean;
     llmEnabled: boolean;
   }
 
@@ -42,10 +44,14 @@ namespace AiBlockerContentConfig {
     reason?: string;
   }
 
-  export const DEFAULTS: Pick<SyncSettings, "enabled" | "threshold" | "customKeywords" | "llmEnabled"> = {
+  export const DEFAULTS: Pick<
+    SyncSettings,
+    "enabled" | "threshold" | "customKeywords" | "filterSelfPromotion" | "llmEnabled"
+  > = {
     enabled: true,
     threshold: 8,
     customKeywords: [],
+    filterSelfPromotion: false,
     llmEnabled: false
   };
 

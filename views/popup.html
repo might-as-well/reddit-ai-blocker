@@ -10,6 +10,16 @@
     <main class="panel">
       <h1>AI Blocker</h1>
       <p class="counter">Blocked posts: <span id="blockedCount">0</span></p>
+      <section class="toggle-group" aria-label="Quick toggles">
+        <label class="toggle-row" for="enabledToggle">
+          <span>Enabled</span>
+          <input id="enabledToggle" type="checkbox" />
+        </label>
+        <label class="toggle-row" for="filterSelfPromotionToggle">
+          <span>Filter self-promotional posts</span>
+          <input id="filterSelfPromotionToggle" type="checkbox" />
+        </label>
+      </section>
       <p id="keyStatus" class="muted">No OpenAI API key saved.</p>
       <div class="actions">
         <button id="addKeyButton" type="button">+ Add OpenAI API key</button>

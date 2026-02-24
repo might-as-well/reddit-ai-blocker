@@ -18,10 +18,25 @@
 
       <label for="threshold">Local aggressiveness threshold (1-20)</label>
       <input id="threshold" type="number" min="1" max="20" />
-      <p class="hint">Lower catches more locally. Borderline posts can be sent to OpenAI.</p>
+      <p class="hint">
+        Lower catches more locally. Borderline posts can be sent to OpenAI.
+      </p>
 
       <label for="keywords">Extra keywords (one per line)</label>
-      <textarea id="keywords" rows="6" placeholder="my product\njoin my waitlist"></textarea>
+      <textarea
+        id="keywords"
+        rows="6"
+        placeholder="my product\njoin my waitlist"
+      ></textarea>
+
+      <label class="row">
+        <input id="filterSelfPromotion" type="checkbox" />
+        <span>Filter self-promotion aggressively</span>
+      </label>
+      <p class="hint">
+        When enabled, posts that are self promoting are much more likely to be
+        hidden locally.
+      </p>
 
       <section class="panel">
         <h2>OpenAI (Borderline Classifier)</h2>
@@ -32,7 +47,12 @@
         </label>
 
         <label for="apiKey">OpenAI API key</label>
-        <input id="apiKey" type="password" placeholder="sk-..." autocomplete="off" />
+        <input
+          id="apiKey"
+          type="password"
+          placeholder="sk-..."
+          autocomplete="off"
+        />
 
         <label for="model">Model</label>
         <input id="model" type="text" placeholder="gpt-4o-mini" />
@@ -44,7 +64,9 @@
         <input id="monthlyCap" type="number" min="1" max="50000" />
 
         <div id="usage" class="hint">Usage: loading...</div>
-        <button id="clearCache" type="button" class="secondary">Clear LLM cache</button>
+        <button id="clearCache" type="button" class="secondary">
+          Clear LLM cache
+        </button>
       </section>
 
       <button id="save">Save</button>

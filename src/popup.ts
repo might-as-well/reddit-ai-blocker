@@ -3,12 +3,18 @@ import type { PopupStateResponse, RuntimeMessage, SetOpenAiApiKeyResponse } from
 const blockedCountEl = document.getElementById("blockedCount") as HTMLSpanElement;
 const keyStatusEl = document.getElementById("keyStatus") as HTMLParagraphElement;
 const statusEl = document.getElementById("status") as HTMLParagraphElement;
+const enabledToggleEl = document.getElementById("enabledToggle") as HTMLInputElement;
+const filterSelfPromotionToggleEl = document.getElementById("filterSelfPromotionToggle") as HTMLInputElement;
 const addKeyButtonEl = document.getElementById("addKeyButton") as HTMLButtonElement;
 const openOptionsEl = document.getElementById("openOptions") as HTMLButtonElement;
 const keyEditorEl = document.getElementById("keyEditor") as HTMLElement;
 const apiKeyInputEl = document.getElementById("apiKeyInput") as HTMLInputElement;
 const saveKeyEl = document.getElementById("saveKey") as HTMLButtonElement;
 const cancelKeyEl = document.getElementById("cancelKey") as HTMLButtonElement;
+const SYNC_DEFAULTS = {
+  enabled: true,
+  filterSelfPromotion: false
+};
 
 function setStatus(text: string): void {
   statusEl.textContent = text;
@@ -24,6 +30,23 @@ function renderKeyState(hasApiKey: boolean): void {
 
 function renderBlockedCount(count: number): void {
   blockedCountEl.textContent = String(Math.max(0, Math.floor(count)));
+}
+
+function renderToggleState(enabled: boolean, filterSelfPromotion: boolean): void {
+  enabledToggleEl.checked = enabled;
+  filterSelfPromotionToggleEl.checked = filterSelfPromotion;
+}
+
+async function loadToggleState(): Promise<void> {
+  const saved = (await chrome.storage.sync.get(SYNC_DEFAULTS)) as Partial<typeof SYNC_DEFAULTS>;
+  renderToggleState(
+    Boolean(saved.enabled ?? SYNC_DEFAULTS.enabled),
+    Boolean(saved.filterSelfPromotion ?? SYNC_DEFAULTS.filterSelfPromotion),
+  );
+}
+
+async function setSyncToggle(key: "enabled" | "filterSelfPromotion", value: boolean): Promise<void> {
+  await chrome.storage.sync.set({ [key]: value });
 }
 
 async function loadPopupState(): Promise<void> {
@@ -65,6 +88,12 @@ async function saveApiKey(): Promise<void> {
 }
 
 addKeyButtonEl.addEventListener("click", openKeyEditor);
+enabledToggleEl.addEventListener("change", () => {
+  void setSyncToggle("enabled", enabledToggleEl.checked);
+});
+filterSelfPromotionToggleEl.addEventListener("change", () => {
+  void setSyncToggle("filterSelfPromotion", filterSelfPromotionToggleEl.checked);
+});
 saveKeyEl.addEventListener("click", () => {
   void saveApiKey();
 });
@@ -83,9 +112,17 @@ openOptionsEl.addEventListener("click", () => {
   void chrome.runtime.openOptionsPage();
 });
 chrome.storage.onChanged.addListener((changes, area) => {
-  if (area !== "local") return;
-  if (changes.blockedCount) renderBlockedCount(Number(changes.blockedCount.newValue || 0));
-  if (changes.openaiApiKey) renderKeyState(Boolean(String(changes.openaiApiKey.newValue || "").trim()));
+  if (area === "local") {
+    if (changes.blockedCount) renderBlockedCount(Number(changes.blockedCount.newValue || 0));
+    if (changes.openaiApiKey) renderKeyState(Boolean(String(changes.openaiApiKey.newValue || "").trim()));
+    return;
+  }
+  if (area === "sync") {
+    if (changes.enabled) enabledToggleEl.checked = Boolean(changes.enabled.newValue);
+    if (changes.filterSelfPromotion) {
+      filterSelfPromotionToggleEl.checked = Boolean(changes.filterSelfPromotion.newValue);
+    }
+  }
 });
 
-void loadPopupState();
+void Promise.all([loadPopupState(), loadToggleState()]);

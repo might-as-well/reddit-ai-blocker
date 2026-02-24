@@ -2,6 +2,7 @@ const SYNC_DEFAULTS = {
     enabled: true,
     threshold: 8,
     customKeywords: [],
+    filterSelfPromotion: false,
     llmEnabled: false,
     openaiModel: "gpt-4o-mini",
     llmHideConfidence: 0.68,
@@ -15,6 +16,7 @@ const LOCAL_DEFAULT_RECORD = { ...LOCAL_DEFAULTS };
 const enabledEl = document.getElementById("enabled");
 const thresholdEl = document.getElementById("threshold");
 const keywordsEl = document.getElementById("keywords");
+const filterSelfPromotionEl = document.getElementById("filterSelfPromotion");
 const llmEnabledEl = document.getElementById("llmEnabled");
 const apiKeyEl = document.getElementById("apiKey");
 const modelEl = document.getElementById("model");
@@ -56,6 +58,7 @@ async function load() {
     enabledEl.checked = Boolean(syncSaved.enabled);
     thresholdEl.value = String(Number(syncSaved.threshold || SYNC_DEFAULTS.threshold));
     keywordsEl.value = customKeywords.join("\n");
+    filterSelfPromotionEl.checked = Boolean(syncSaved.filterSelfPromotion);
     llmEnabledEl.checked = Boolean(syncSaved.llmEnabled);
     apiKeyEl.value = String(localSaved.openaiApiKey || "");
     modelEl.value = String(syncSaved.openaiModel || SYNC_DEFAULTS.openaiModel);
@@ -90,6 +93,7 @@ async function save() {
             enabled: enabledEl.checked,
             threshold,
             customKeywords,
+            filterSelfPromotion: filterSelfPromotionEl.checked,
             llmEnabled: llmEnabledEl.checked,
             openaiModel: model,
             llmHideConfidence,

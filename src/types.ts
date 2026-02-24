@@ -2,6 +2,7 @@ export interface SyncSettings {
   enabled: boolean;
   threshold: number;
   customKeywords: string[];
+  filterSelfPromotion: boolean;
   llmEnabled: boolean;
   openaiModel: string;
   llmHideConfidence: number;

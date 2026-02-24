@@ -2,6 +2,7 @@ const SYNC_DEFAULTS = {
     enabled: true,
     threshold: 8,
     customKeywords: [],
+    filterSelfPromotion: false,
     llmEnabled: false,
     openaiModel: "gpt-4o-mini",
     llmHideConfidence: 0.68,
@@ -68,6 +69,7 @@ async function getSettings() {
         ? local.llmCache
         : {};
     return {
+        filterSelfPromotion: Boolean(sync.filterSelfPromotion),
         llmEnabled: Boolean(sync.llmEnabled),
         openaiModel: String(sync.openaiModel || SYNC_DEFAULTS.openaiModel),
         llmHideConfidence: sanitizeConfidence(sync.llmHideConfidence, SYNC_DEFAULTS.llmHideConfidence),
@@ -100,6 +102,9 @@ function cleanupCache(cache) {
 }
 async function runOpenAIClassification(params) {
     const truncatedText = String(params.text || "").slice(0, 7000);
+    const strictSelfPromoInstruction = params.filterSelfPromotion
+        ? "Strict self-promo mode is ON: aggressively classify and hide posts with any self-promotional signals, including direct/indirect product links, product-name mentions, launch/early-access copy, 'I built X/I made X' framing, feature lists, call-to-action prompts, or attempts to disguise promotion as discussion."
+        : "Strict self-promo mode is OFF: do not hide purely for self-promotion unless structure strongly looks AI-templated.";
     const body = {
         model: params.model,
         temperature: 0,
@@ -108,7 +113,7 @@ async function runOpenAIClassification(params) {
         messages: [
             {
                 role: "system",
-                content: "You classify Reddit posts for feed filtering. Primary criteria are writing cadence, punctuation patterns, and formatting structure (not topic). Focus on AI-templated structure: repetitive short rhetorical lines, polished slogan-like lines, over-structured bullets/framework blocks, and launch narratives with feature-list + CTA. IMPORTANT: self-promotion by itself is not evidence of AI generation and should not be hidden unless the writing structure itself looks AI-templated. Do NOT treat 'personal experiences' or project-specific details as evidence that content is benign. Strong human-imperfection signals (abbreviations like 'btw'/'ud', malformed punctuation like '.?'/'?!'/'!!', missing capitalization, awkward grammar, spelling slips, and long single-block text with minimal paragraph breaks) are evidence against AI-generation and should bias toward benign unless AI-template structure is strong. Output strict JSON only with keys: hide (boolean), confidence (0..1), category (ai|self_promo|mixed|benign), reason (short). Set hide=true only when evidence is reasonably strong.",
+                content: `You classify Reddit posts for feed filtering. Primary criteria are writing cadence, punctuation patterns, and formatting structure (not topic). Focus on AI-templated structure: repetitive short rhetorical lines, polished slogan-like lines, over-structured bullets/framework blocks, and launch narratives with feature-list + CTA. ${strictSelfPromoInstruction} Do NOT treat 'personal experiences' or project-specific details as evidence that content is benign. Strong human-imperfection signals (abbreviations like 'btw'/'ud', malformed punctuation like '.?'/'?!'/'!!', missing capitalization, awkward grammar, spelling slips, and long single-block text with minimal paragraph breaks) are evidence against AI-generation and should bias toward benign unless AI-template structure is strong. Output strict JSON only with keys: hide (boolean), confidence (0..1), category (ai|self_promo|mixed|benign), reason (short). Set hide=true only when evidence is reasonably strong.`,
             },
             {
                 role: "user",
@@ -157,7 +162,7 @@ async function classifyPost(message) {
     if (!rawHash) {
         return { ok: false, skipped: true, reason: "Missing post hash" };
     }
-    const key = `${CLASSIFIER_PROMPT_VERSION}:${rawHash}`;
+    const key = `${CLASSIFIER_PROMPT_VERSION}:${settings.filterSelfPromotion ? "promo-on" : "promo-off"}:${rawHash}`;
     if (cleanedCache[key]) {
         return { ok: true, cached: true, decision: cleanedCache[key], usage };
     }
@@ -166,6 +171,7 @@ async function classifyPost(message) {
         model: settings.openaiModel,
         hideThreshold: settings.llmHideConfidence,
         localScore: Number(message.score || 0),
+        filterSelfPromotion: settings.filterSelfPromotion,
         text: message.text,
     });
     const decision = {

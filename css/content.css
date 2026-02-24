@@ -71,6 +71,21 @@
     sans-serif;
 }
 
+.ai-blocker-likely-flag {
+  display: inline-block;
+  margin: 4px 8px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: #fff6e8;
+  color: #7f4a00;
+  border: 1px solid #f4d7a6;
+  font:
+    11px/1.35 -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+}
+
 #aiBlockerDebugHud {
   position: fixed;
   top: 10px;
