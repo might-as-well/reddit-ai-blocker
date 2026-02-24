@@ -5,6 +5,13 @@ var AiBlockerUi;
     const PLACEHOLDER_TEMPLATE_FILE = "templates/placeholder.html";
     const DEBUG_HUD_TEMPLATE_ID = "ai-blocker-debug-hud-template";
     const DEBUG_HUD_TEMPLATE_FILE = "templates/debug-hud.html";
+    function getUhtml() {
+        const value = globalThis.uhtml;
+        if (!value || typeof value.html !== "function" || typeof value.render !== "function") {
+            return null;
+        }
+        return value;
+    }
     async function loadTemplateFromFile(templateFile, templateId) {
         if (document.getElementById(templateId))
             return;
@@ -45,6 +52,15 @@ var AiBlockerUi;
             details.push(`score: ${meta.score}`);
         if (typeof meta.confidence === "number")
             details.push(`confidence: ${meta.confidence.toFixed(2)}`);
+        const uhtml = getUhtml();
+        const contentEl = wrapper.querySelector(".ai-blocker-placeholder-content");
+        if (uhtml && contentEl) {
+            const { html, render } = uhtml;
+            render(contentEl, html `<strong class="ai-blocker-placeholder-title">Hidden by AI Blocker</strong>
+          <span class="ai-blocker-placeholder-details">(${details.join(" | ")})</span>
+          <div class="ai-blocker-placeholder-reason">${meta.reason || "Likely AI/self-promotional post"}</div>`);
+            return;
+        }
         const detailsEl = wrapper.querySelector(".ai-blocker-placeholder-details");
         const reasonEl = wrapper.querySelector(".ai-blocker-placeholder-reason");
         if (detailsEl)
@@ -157,11 +173,17 @@ var AiBlockerUi;
     }
     function renderDebugHud(model) {
         const hud = getDebugHudElement();
-        hud.textContent =
-            `AI Blocker debug | enabled=${model.enabled ? "yes" : "no"} | llm=${model.llmEnabled ? "on" : "off"} | scans=${model.scans} | ` +
-                `candidates=${model.candidates} | checked=${model.checked} | ` +
-                `hidden(local=${model.hiddenLocal}, llm=${model.hiddenLlm}) | ` +
-                `llm(req=${model.llmRequests}, api=${model.llmApiCalls}, cache=${model.llmCacheHits}, err=${model.llmErrors}) | ${model.last}`;
+        const text = `AI Blocker debug | enabled=${model.enabled ? "yes" : "no"} | llm=${model.llmEnabled ? "on" : "off"} | scans=${model.scans} | ` +
+            `candidates=${model.candidates} | checked=${model.checked} | ` +
+            `hidden(local=${model.hiddenLocal}, llm=${model.hiddenLlm}) | ` +
+            `llm(req=${model.llmRequests}, api=${model.llmApiCalls}, cache=${model.llmCacheHits}, err=${model.llmErrors}) | ${model.last}`;
+        const uhtml = getUhtml();
+        if (!uhtml) {
+            hud.textContent = text;
+            return;
+        }
+        const { html, render } = uhtml;
+        render(hud, html `${text}`);
     }
     AiBlockerUi.renderDebugHud = renderDebugHud;
 })(AiBlockerUi || (AiBlockerUi = {}));

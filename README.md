@@ -29,23 +29,15 @@ This project aims to give users practical filtering controls to reduce that fati
 4. Borderline posts can be sent to an LLM classifier (if enabled).
 5. Decisions are cached to reduce repeated API calls.
 
-## Project structure
-
-- `src/` TypeScript source
-- `dist/` compiled extension scripts
-- `views/` extension pages (`popup.html`, `options.html`)
-- `css/` extension styles
-- `templates/` HTML snippets used by content UI
-- `manifest.json` Chrome extension config
-
 ## Requirements
 
-- Node.js 18+ (or compatible)
+- Node.js `22.3.0` (see `.nvmrc`)
 - Chrome (for loading unpacked extension)
 
 ## Setup
 
 1. Install dependencies:
+   - `nvm use` (if you use nvm)
    - `npm install`
 2. Build:
    - `npm run build`
@@ -104,11 +96,16 @@ Use the PR template in `.github/pull_request_template.md`.
 1. Fork or branch from `main`
 2. Make your changes
 3. Run checks:
+   - `nvm use` (requires nvm)
    - `npm run typecheck`
    - `npm test`
    - `npm run build`
 4. Verify in Chrome on real Reddit pages
 5. Open a PR with the template completed
+
+### Troubleshooting
+
+- If tests fail because of Node/runtime mismatch, run `nvm use` before `npm test`.
 
 ## Limitations
 

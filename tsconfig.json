@@ -7,9 +7,12 @@
     "strict": true,
     "noEmitOnError": true,
     "skipLibCheck": true,
+    "jsx": "react",
+    "jsxFactory": "preact.h",
+    "jsxFragmentFactory": "preact.Fragment",
     "rootDir": "src",
     "outDir": "dist",
     "types": ["chrome"]
   },
-  "include": ["src/**/*.ts"]
+  "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.d.ts"]
 }

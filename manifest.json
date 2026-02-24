@@ -21,15 +21,9 @@
         "https://www.reddit.com/*",
         "https://*.reddit.com/*"
       ],
-      "js": ["dist/content-config.js", "dist/content-ui.js", "dist/content.js"],
+      "js": ["dist/content.js"],
       "css": ["css/content.css"],
       "run_at": "document_idle"
-    }
-  ],
-  "web_accessible_resources": [
-    {
-      "resources": ["templates/placeholder.html", "templates/debug-hud.html"],
-      "matches": ["https://reddit.com/*", "https://www.reddit.com/*", "https://*.reddit.com/*"]
     }
   ],
   "options_page": "views/options.html",
