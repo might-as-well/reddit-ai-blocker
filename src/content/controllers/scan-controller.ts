@@ -115,18 +115,33 @@ async function classifyWithLlm(
   updateDebugHud();
 
   try {
-    const result = await safeSendRuntimeMessage<ClassifyResponse>({
-      type: "CLASSIFY_POST",
+    const message = {
+      type: "CLASSIFY_POST" as const,
       postHash,
       score: localScore,
       text,
-    });
-
-    if (!result) {
-      setDebugLabel(postEl, `checked (score=${localScore}) -> LLM unavailable`);
-      debugStats.last = "llm:unavailable";
-      updateDebugHud();
-      return;
+    };
+    let result: ClassifyResponse;
+    try {
+      result = (await chrome.runtime.sendMessage(message)) as ClassifyResponse;
+    } catch (firstError: unknown) {
+      if (isContextInvalidatedError(firstError)) {
+        await new Promise((resolve) => window.setTimeout(resolve, 200));
+        try {
+          result = (await chrome.runtime.sendMessage(message)) as ClassifyResponse;
+        } catch (retryError: unknown) {
+          const detail = String((retryError as Error)?.message || retryError);
+          setDebugLabel(
+            postEl,
+            `checked (score=${localScore}) -> LLM unavailable (${detail.slice(0, 120)})`,
+          );
+          debugStats.last = "llm:unavailable context-invalidated";
+          updateDebugHud();
+          return;
+        }
+      } else {
+        throw firstError;
+      }
     }
 
     if (!result.ok || !result.decision) {

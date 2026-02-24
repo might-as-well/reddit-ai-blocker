@@ -457,7 +457,7 @@
       setFilterSelfPromotion(val);
       void chrome.storage.sync.set({ filterSelfPromotion: val });
     }
-    return /* @__PURE__ */ preact.h("main", { class: "panel" }, /* @__PURE__ */ preact.h("h1", null, "AI Blocker"), /* @__PURE__ */ preact.h("p", { class: "counter" }, "Blocked posts: ", /* @__PURE__ */ preact.h("span", null, Math.max(0, Math.floor(blockedCount)))), /* @__PURE__ */ preact.h("section", { class: "toggle-group", "aria-label": "Quick toggles" }, /* @__PURE__ */ preact.h("label", { class: "toggle-row", for: "enabledToggle" }, /* @__PURE__ */ preact.h("span", null, "Enabled"), /* @__PURE__ */ preact.h(
+    return /* @__PURE__ */ _("main", { class: "panel" }, /* @__PURE__ */ _("h1", null, "AI Blocker"), /* @__PURE__ */ _("p", { class: "counter" }, "Blocked posts: ", /* @__PURE__ */ _("span", null, Math.max(0, Math.floor(blockedCount)))), /* @__PURE__ */ _("section", { class: "toggle-group", "aria-label": "Quick toggles" }, /* @__PURE__ */ _("label", { class: "toggle-row", for: "enabledToggle" }, /* @__PURE__ */ _("span", null, "Enabled"), /* @__PURE__ */ _(
       "input",
       {
         id: "enabledToggle",
@@ -465,7 +465,7 @@
         checked: enabled,
         onChange: handleToggleEnabled
       }
-    )), /* @__PURE__ */ preact.h("label", { class: "toggle-row", for: "filterSelfPromotionToggle" }, /* @__PURE__ */ preact.h("span", null, "Filter self-promotional posts"), /* @__PURE__ */ preact.h(
+    )), /* @__PURE__ */ _("label", { class: "toggle-row", for: "filterSelfPromotionToggle" }, /* @__PURE__ */ _("span", null, "Filter self-promotional posts"), /* @__PURE__ */ _(
       "input",
       {
         id: "filterSelfPromotionToggle",
@@ -473,7 +473,7 @@
         checked: filterSelfPromotion,
         onChange: handleToggleFilterSelfPromotion
       }
-    ))), /* @__PURE__ */ preact.h("p", { class: "muted" }, hasApiKey ? "OpenAI API key is saved locally." : "No OpenAI API key saved."), /* @__PURE__ */ preact.h("div", { class: "actions" }, /* @__PURE__ */ preact.h("button", { type: "button", onClick: () => setKeyEditorOpen(true) }, hasApiKey ? "Update OpenAI API key" : "+ Add OpenAI API key"), /* @__PURE__ */ preact.h(
+    ))), /* @__PURE__ */ _("p", { class: "muted" }, hasApiKey ? "OpenAI API key is saved locally." : "No OpenAI API key saved."), /* @__PURE__ */ _("div", { class: "actions" }, /* @__PURE__ */ _("button", { type: "button", onClick: () => setKeyEditorOpen(true) }, hasApiKey ? "Update OpenAI API key" : "+ Add OpenAI API key"), /* @__PURE__ */ _(
       "button",
       {
         type: "button",
@@ -481,7 +481,7 @@
         onClick: () => void chrome.runtime.openOptionsPage()
       },
       "More settings"
-    )), keyEditorOpen && /* @__PURE__ */ preact.h("section", { class: "key-editor" }, /* @__PURE__ */ preact.h("h2", null, "OpenAI API key"), /* @__PURE__ */ preact.h("label", { for: "apiKeyInput" }, "Paste key"), /* @__PURE__ */ preact.h(
+    )), keyEditorOpen && /* @__PURE__ */ _("section", { class: "key-editor" }, /* @__PURE__ */ _("h2", null, "OpenAI API key"), /* @__PURE__ */ _("label", { for: "apiKeyInput" }, "Paste key"), /* @__PURE__ */ _(
       "input",
       {
         id: "apiKeyInput",
@@ -502,7 +502,7 @@
           }
         }
       }
-    ), /* @__PURE__ */ preact.h("p", { class: "muted" }, "Stored only in local extension storage."), /* @__PURE__ */ preact.h("div", { class: "actions" }, /* @__PURE__ */ preact.h("button", { type: "button", onClick: () => void saveApiKey() }, "Save"), /* @__PURE__ */ preact.h(
+    ), /* @__PURE__ */ _("p", { class: "muted" }, "Stored only in local extension storage."), /* @__PURE__ */ _("div", { class: "actions" }, /* @__PURE__ */ _("button", { type: "button", onClick: () => void saveApiKey() }, "Save"), /* @__PURE__ */ _(
       "button",
       {
         type: "button",
@@ -513,11 +513,11 @@
         }
       },
       "Cancel"
-    ))), status && /* @__PURE__ */ preact.h("p", { class: "status", role: "status" }, status));
+    ))), status && /* @__PURE__ */ _("p", { class: "status", role: "status" }, status));
   }
 
   // src/popup/index.tsx
   var root = document.getElementById("app");
-  if (root) J(/* @__PURE__ */ preact.h(App, null), root);
+  if (root) J(/* @__PURE__ */ _(App, null), root);
 })();
 //# sourceMappingURL=popup.js.map

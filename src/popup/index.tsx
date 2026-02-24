@@ -1,3 +1,4 @@
+import * as preact from "preact";
 import { render } from "preact";
 import App from "./App";
 

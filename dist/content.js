@@ -827,17 +827,33 @@ ${richBody}`.trim();
     debugStats.last = `llm:pending score=${localScore}`;
     updateDebugHud();
     try {
-      const result = await safeSendRuntimeMessage({
+      const message = {
         type: "CLASSIFY_POST",
         postHash,
         score: localScore,
         text
-      });
-      if (!result) {
-        setDebugLabel(postEl, `checked (score=${localScore}) -> LLM unavailable`);
-        debugStats.last = "llm:unavailable";
-        updateDebugHud();
-        return;
+      };
+      let result;
+      try {
+        result = await chrome.runtime.sendMessage(message);
+      } catch (firstError) {
+        if (isContextInvalidatedError(firstError)) {
+          await new Promise((resolve) => window.setTimeout(resolve, 200));
+          try {
+            result = await chrome.runtime.sendMessage(message);
+          } catch (retryError) {
+            const detail = String(retryError?.message || retryError);
+            setDebugLabel(
+              postEl,
+              `checked (score=${localScore}) -> LLM unavailable (${detail.slice(0, 120)})`
+            );
+            debugStats.last = "llm:unavailable context-invalidated";
+            updateDebugHud();
+            return;
+          }
+        } else {
+          throw firstError;
+        }
       }
       if (!result.ok || !result.decision) {
         const reason = result.reason || "no decision";

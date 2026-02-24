@@ -501,14 +501,14 @@
       flashStatus("Cache cleared");
       await refreshUsage();
     }
-    return /* @__PURE__ */ preact.h("main", null, /* @__PURE__ */ preact.h("h1", null, "AI Blocker for Reddit"), /* @__PURE__ */ preact.h("p", null, "Hybrid mode: local scoring first, OpenAI only for borderline posts."), /* @__PURE__ */ preact.h("label", { class: "row" }, /* @__PURE__ */ preact.h(
+    return /* @__PURE__ */ _("main", null, /* @__PURE__ */ _("h1", null, "AI Blocker for Reddit"), /* @__PURE__ */ _("p", null, "Hybrid mode: local scoring first, OpenAI only for borderline posts."), /* @__PURE__ */ _("label", { class: "row" }, /* @__PURE__ */ _(
       "input",
       {
         type: "checkbox",
         checked: enabled,
         onChange: (e3) => setEnabled(e3.target.checked)
       }
-    ), /* @__PURE__ */ preact.h("span", null, "Enable blocker")), /* @__PURE__ */ preact.h("label", { for: "threshold" }, "Local aggressiveness threshold (1-20)"), /* @__PURE__ */ preact.h(
+    ), /* @__PURE__ */ _("span", null, "Enable blocker")), /* @__PURE__ */ _("label", { for: "threshold" }, "Local aggressiveness threshold (1-20)"), /* @__PURE__ */ _(
       "input",
       {
         id: "threshold",
@@ -518,7 +518,7 @@
         value: threshold,
         onInput: (e3) => setThreshold(e3.target.value)
       }
-    ), /* @__PURE__ */ preact.h("p", { class: "hint" }, "Lower catches more locally. Borderline posts can be sent to OpenAI."), /* @__PURE__ */ preact.h("label", { for: "keywords" }, "Extra keywords (one per line)"), /* @__PURE__ */ preact.h(
+    ), /* @__PURE__ */ _("p", { class: "hint" }, "Lower catches more locally. Borderline posts can be sent to OpenAI."), /* @__PURE__ */ _("label", { for: "keywords" }, "Extra keywords (one per line)"), /* @__PURE__ */ _(
       "textarea",
       {
         id: "keywords",
@@ -527,21 +527,21 @@
         value: keywords,
         onInput: (e3) => setKeywords(e3.target.value)
       }
-    ), /* @__PURE__ */ preact.h("label", { class: "row" }, /* @__PURE__ */ preact.h(
+    ), /* @__PURE__ */ _("label", { class: "row" }, /* @__PURE__ */ _(
       "input",
       {
         type: "checkbox",
         checked: filterSelfPromotion,
         onChange: (e3) => setFilterSelfPromotion(e3.target.checked)
       }
-    ), /* @__PURE__ */ preact.h("span", null, "Filter self-promotion aggressively")), /* @__PURE__ */ preact.h("p", { class: "hint" }, "When enabled, posts that are self promoting are much more likely to be hidden locally."), /* @__PURE__ */ preact.h("section", { class: "panel" }, /* @__PURE__ */ preact.h("h2", null, "OpenAI (Borderline Classifier)"), /* @__PURE__ */ preact.h("label", { class: "row" }, /* @__PURE__ */ preact.h(
+    ), /* @__PURE__ */ _("span", null, "Filter self-promotion aggressively")), /* @__PURE__ */ _("p", { class: "hint" }, "When enabled, posts that are self promoting are much more likely to be hidden locally."), /* @__PURE__ */ _("section", { class: "panel" }, /* @__PURE__ */ _("h2", null, "OpenAI (Borderline Classifier)"), /* @__PURE__ */ _("label", { class: "row" }, /* @__PURE__ */ _(
       "input",
       {
         type: "checkbox",
         checked: llmEnabled,
         onChange: (e3) => setLlmEnabled(e3.target.checked)
       }
-    ), /* @__PURE__ */ preact.h("span", null, "Enable OpenAI on uncertain posts")), /* @__PURE__ */ preact.h("label", { for: "apiKey" }, "OpenAI API key"), /* @__PURE__ */ preact.h(
+    ), /* @__PURE__ */ _("span", null, "Enable OpenAI on uncertain posts")), /* @__PURE__ */ _("label", { for: "apiKey" }, "OpenAI API key"), /* @__PURE__ */ _(
       "input",
       {
         id: "apiKey",
@@ -551,7 +551,7 @@
         value: apiKey,
         onInput: (e3) => setApiKey(e3.target.value)
       }
-    ), /* @__PURE__ */ preact.h("label", { for: "model" }, "Model"), /* @__PURE__ */ preact.h(
+    ), /* @__PURE__ */ _("label", { for: "model" }, "Model"), /* @__PURE__ */ _(
       "input",
       {
         id: "model",
@@ -560,7 +560,7 @@
         value: model,
         onInput: (e3) => setModel(e3.target.value)
       }
-    ), /* @__PURE__ */ preact.h("label", { for: "llmConfidence" }, "Hide confidence threshold (0.00-1.00)"), /* @__PURE__ */ preact.h(
+    ), /* @__PURE__ */ _("label", { for: "llmConfidence" }, "Hide confidence threshold (0.00-1.00)"), /* @__PURE__ */ _(
       "input",
       {
         id: "llmConfidence",
@@ -571,7 +571,7 @@
         value: llmConfidence,
         onInput: (e3) => setLlmConfidence(e3.target.value)
       }
-    ), /* @__PURE__ */ preact.h("label", { for: "monthlyCap" }, "Monthly LLM call cap"), /* @__PURE__ */ preact.h(
+    ), /* @__PURE__ */ _("label", { for: "monthlyCap" }, "Monthly LLM call cap"), /* @__PURE__ */ _(
       "input",
       {
         id: "monthlyCap",
@@ -581,11 +581,11 @@
         value: monthlyCap,
         onInput: (e3) => setMonthlyCap(e3.target.value)
       }
-    ), /* @__PURE__ */ preact.h("div", { class: "hint" }, usage), /* @__PURE__ */ preact.h("button", { type: "button", class: "secondary", onClick: () => void clearCache() }, "Clear LLM cache")), /* @__PURE__ */ preact.h("button", { type: "button", onClick: () => void save() }, "Save"), status && /* @__PURE__ */ preact.h("span", { role: "status" }, status));
+    ), /* @__PURE__ */ _("div", { class: "hint" }, usage), /* @__PURE__ */ _("button", { type: "button", class: "secondary", onClick: () => void clearCache() }, "Clear LLM cache")), /* @__PURE__ */ _("button", { type: "button", onClick: () => void save() }, "Save"), status && /* @__PURE__ */ _("span", { role: "status" }, status));
   }
 
   // src/options/index.tsx
   var root = document.getElementById("app");
-  if (root) J(/* @__PURE__ */ preact.h(App, null), root);
+  if (root) J(/* @__PURE__ */ _(App, null), root);
 })();
 //# sourceMappingURL=options.js.map

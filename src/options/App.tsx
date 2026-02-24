@@ -1,3 +1,4 @@
+import * as preact from "preact";
 import { useState, useEffect } from "preact/hooks";
 import type { RuntimeMessage, SyncSettings, UsageResponse } from "../types";
 
